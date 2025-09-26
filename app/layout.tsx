@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist_Mono, Host_Grotesk } from 'next/font/google'
 import './globals.css'
+import { Toaster } from 'sonner'
 
 const hostGrotesk = Host_Grotesk({
   variable: '--font-host-grotesk',
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${hostGrotesk.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   )

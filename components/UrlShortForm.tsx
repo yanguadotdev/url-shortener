@@ -4,16 +4,37 @@ import { LucideLoader, LucideDices } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { checkIfSlugExists, createLink } from '@/server/actions/link'
+import { toast } from 'sonner'
 
 export default function UrlShortForm() {
     const [isLoading, setIsLoading] = useState(false)
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<CreateLink>({
+    const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<CreateLink>({
         resolver: zodResolver(createLinkSchema)
     })
 
     const onSubmit = async (values: CreateLink) => {
-        console.log(values)
+        try {
+            setIsLoading(true)
+            const slugExists = await checkIfSlugExists(values.slug)
+            if (slugExists) {
+                toast.error('Slug already exists. Please choose a different slug')
+                return
+            }
+
+            await createLink(values)
+            toast.success('Link created successfully', {
+                description: 'You can now share your shortened url',
+                closeButton: true
+            })
+            reset()
+        } catch (error) {
+            console.log(error)
+            toast.error('Something went wrong. Please try again later')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const randomizeSlug = () => {
