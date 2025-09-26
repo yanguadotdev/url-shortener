@@ -8,12 +8,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 export default function UrlShortForm() {
     const [isLoading, setIsLoading] = useState(false)
 
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateLink>({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<CreateLink>({
         resolver: zodResolver(createLinkSchema)
     })
 
     const onSubmit = async (values: CreateLink) => {
         console.log(values)
+    }
+
+    const randomizeSlug = () => {
+        const randomString = Math.random().toString(36).substring(2, 7)
+        setValue('slug', randomString)
     }
 
     return (
@@ -47,14 +52,18 @@ export default function UrlShortForm() {
                 </small>
                 <div>
                     <div className="flex items-center text-sm gap-2 rounded-sm border h-10 border-gray-200 focus:border-gray-400 p-0.5 pl-4">
-                        <span>https://shorturl.app/</span>
+                        <span>https://shorturl.vercel.app/</span>
                         <input
                             type="text"
                             placeholder="[slug]"
                             className="w-full text-sm flex-1 text-grey-700 h-full"
                             {...register('slug')}
                         />
-                        <button type="button" className="px-4 py-2 rounded-sm text-white bg-black h-full flex items-center gap-2">
+                        <button
+                            type="button"
+                            className="px-4 py-2 rounded-sm text-white bg-black h-full flex items-center gap-2"
+                            onClick={randomizeSlug}
+                        >
                             <LucideDices width={16} />
                             <span>Randomize</span>
                         </button>
