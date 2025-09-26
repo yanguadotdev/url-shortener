@@ -1,4 +1,5 @@
 import UrlShortForm from "@/components/UrlShortForm";
+import GridFromLinks from "@/components/GridFromLinks";
 
 export default function Home() {
   return (
@@ -11,6 +12,8 @@ export default function Home() {
         </p>
       </div>
       <UrlShortForm />
+
+      <GridFromLinks />
     </main>
   )
 }

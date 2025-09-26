@@ -21,3 +21,7 @@ export const createLinkSchema = z.object({
 });
 
 export type CreateLink = z.infer<typeof createLinkSchema>
+export interface Link extends CreateLink {
+    id: number
+    visits: number
+}
