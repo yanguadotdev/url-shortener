@@ -31,3 +31,46 @@ export const removeLink = async (id: number) => {
 
     revalidatePath('/')
 }
+
+interface UrlFromServer {
+    error: boolean
+    message: string
+    redirect404?: boolean
+    url?: string
+}
+
+export const getUrlBySlug = async (slug: string): Promise<UrlFromServer> => {
+    try {
+        const link = await db
+            .select()
+            .from(linksTable)
+            .where(eq(linksTable.slug, slug))
+            .get()
+
+        if (!link) {
+            return {
+                error: true,
+                message: 'Link not found',
+                redirect404: true
+            }
+        }
+
+        // Update counter clicks
+        await db
+            .update(linksTable)
+            .set({ visits: link.visits + 1 })
+            .where(eq(linksTable.id, link.id))
+
+        return {
+            error: false,
+            message: 'Link found',
+            url: link.url
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            error: true,
+            message: 'An unexpected error has occurred. Please try again later.',
+        }
+    }
+}
