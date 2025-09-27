@@ -25,3 +25,9 @@ export const createLink = async (values: CreateLink) => {
 
     revalidatePath('/')
 }
+
+export const removeLink = async (id: number) => {
+    await db.delete(linksTable).where(eq(linksTable.id, id))
+
+    revalidatePath('/')
+}
