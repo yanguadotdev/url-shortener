@@ -10,7 +10,7 @@ export default function Link({ link }: { link: Link }) {
             <div className="absolute top-4 right-4 flex items-center gap-3 text-sm">
                 <ShowClicks visits={link.visits} />
                 <CopyLink slug={link.slug} />
-                <EditLink />
+                <EditLink slug={link.slug} id={link.id} url={link.url} />
                 <DeleteLink id={link.id} />
             </div>
             <p className="p-0.5 bg-gray-50 rounded-sm inline-block border border-gray-100 mb-4">/{link.slug}</p>
