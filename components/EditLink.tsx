@@ -1,16 +1,14 @@
 'use client'
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { CreateLink } from "@/schemas"
-import { LucideDices, LucideLoader, SettingsIcon, XIcon } from "lucide-react"
+import { LucideLoader, SettingsIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createLinkSchema } from "@/schemas"
@@ -28,17 +26,13 @@ export default function EditLink({ slug, url, id }: EditLinkProps) {
     const [open, setOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const URL_TO_COPY = `${process.env.NEXT_PUBLIC_URL}/`
-    const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<CreateLink>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateLink>({
         resolver: zodResolver(createLinkSchema),
         values: {
             slug,
             url
         }
     })
-    const randomizeSlug = () => {
-        const randomString = Math.random().toString(36).substring(2, 7)
-        setValue('slug', randomString)
-    }
 
     const onSubmit = async (values: CreateLink) => {
         try {

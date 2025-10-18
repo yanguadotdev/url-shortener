@@ -16,4 +16,4 @@ export default function DeleteLink({ id }: { id: number }) {
             <TrashIcon width={16} />
         </button>
     )
-}
+} 
