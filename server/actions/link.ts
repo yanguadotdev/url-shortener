@@ -39,6 +39,12 @@ interface UrlFromServer {
     url?: string
 }
 
+export const updateLink = async (id: number, values: CreateLink) => {
+    await db.update(linksTable).set({...values, visits: 0}).where(eq(linksTable.id, id))
+
+    revalidatePath('/')
+}
+
 export const getUrlBySlug = async (slug: string): Promise<UrlFromServer> => {
     try {
         const link = await db
